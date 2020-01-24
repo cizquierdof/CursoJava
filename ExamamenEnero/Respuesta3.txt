@@ -1,0 +1,34 @@
+Respuesta:
+Partimos de un array de 5.150.000 de registros con los datos de los 
+ciudadanos de Barcelona, cada registro es un objeto que tiene al
+menos los campos [id, edad y barrio].
+Al método fun se le pasa el aray anterior y además un objeto que 
+tiene como campos [id, edad, barrio] como parámetro de busqueda.
+
+El método o función fun recorre el array de ciudadanos de Barcelona. En 
+cada iteración se imprimirá el registro correspondiente si se cumplen 
+simultaneamente LAS TRES coindiciones siguientes:
+    1ª id del filtro y id del registro coinciden o id del filtro es null
+    2ª edad del filtro y edad del registro coinciden o edad del filtro es null
+    3ª barrio del filtro y barrio del registro coinciden o barrio del filtro es null
+
+Caso a) se envian todos los id del filtro como null, por tanto las tres condiciones 
+se cumplen ya que la parte derecha del 'or' es siempre 'true' y por tanto se 
+imprimiran todos los registros del array. Es decir obtendremos 5.150.000 resultados.
+
+Caso b) Si el filtro que se envia es {id:55000} por tanto tenemos que suponer  
+{id:55000, edad:null, barrio:null} 
+la primera iteración será:
+    1ª (array.id=0 == predicate.id=55000) or (predicate.id==null)  
+                False                           False           = False 
+Esto no devuelve resultado independientemente de las condiciones 2ª y 3ª.
+Esto seguirá siendo así hasta llegar a array.id=55000 donde tenemos
+    1ª (array.id=55000 == predicate.id=55000) or (predicate.id==null)  
+                   True                           False                     = True
+     2ª (array.edad=?? == predicate.edad=null) or (predicate.edad==null)  
+                no importa                               True               = True 
+     3ª (array.barrio=?? == predicate.barrio=null) or (predicate.barrio==null)  
+                no importa                              True                = True 
+Por tanto sí tenemos resultado.
+El resto de iteraciones volvemos al primer caso, por tanto no devolverán resultados,
+por lo que finalmente, solo obtenemos un resultado para id=55000.
